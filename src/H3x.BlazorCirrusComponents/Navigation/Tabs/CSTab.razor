@@ -1,0 +1,29 @@
+﻿@inherits CirrusComponentBase
+
+<li>
+    @if (TitleString != null)
+    {
+        @TitleString
+    }
+    else
+    {
+        @Title
+    }
+</li>
+
+@code {
+    [Parameter]
+    public RenderFragment Title { get; set; }
+
+    [Parameter]
+    public string TitleString { get; set; } 
+
+    [Parameter]
+    public CSSize Size { get; set; }
+
+    [Parameter]
+    public bool HasDepth { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

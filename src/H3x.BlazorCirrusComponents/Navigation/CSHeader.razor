@@ -1,0 +1,69 @@
+﻿@inherits CirrusComponentBase
+
+<div class="header @(IsFixed ? "header-fixed" : string.Empty) @(IsAnimated ? "header-animated" : string.Empty)">
+    @if (Brand != null)
+    {
+        <div class="header-brand">
+            <div class="nav-item">
+                @Brand
+            </div>
+            @if (LeftFixed != null)
+            {
+                @LeftFixed
+            }
+            <div class="nav-item nav-btn @(MenuVisibleOnMobile ? "active" : string.Empty)" @onclick="ToggleMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    }
+    <div class="header-nav @(MenuVisibleOnMobile ? "active" : string.Empty)">
+        @if (Left != null)
+        {
+            <div class="nav-left">
+                @Left
+            </div>
+        }
+        @if (Center != null)
+        {
+            <div class="nav-center">
+                @Center
+            </div>
+        }
+        @if (Right != null)
+        {
+            <div class="nav-right">
+                @Right
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Brand { get; set; }
+
+    [Parameter]
+    public RenderFragment LeftFixed { get; set; }
+
+    [Parameter]
+    public RenderFragment Left { get; set; }
+
+    [Parameter]
+    public RenderFragment Center { get; set; }
+
+    [Parameter]
+    public RenderFragment Right { get; set; }
+
+    [Parameter]
+    public bool IsFixed { get; set; }
+
+    [Parameter]
+    public bool IsAnimated { get; set; } = true;
+
+    [Parameter]
+    public bool MenuVisibleOnMobile { get; set; }
+
+    void ToggleMenu() => MenuVisibleOnMobile = !MenuVisibleOnMobile;
+}

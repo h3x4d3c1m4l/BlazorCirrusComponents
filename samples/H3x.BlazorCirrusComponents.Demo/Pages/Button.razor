@@ -1,0 +1,46 @@
+﻿@page "/"
+
+<h1>Button</h1>
+
+<h2>Settings</h2>
+<select @bind="ButtonElementType">
+    @foreach (var value in Enum.GetValues(typeof(CSButtonElementTypes)))
+    {
+        <option>@value</option>
+    }
+</select>
+<select @bind="ButtonSize">
+    @foreach (var value in Enum.GetValues(typeof(CSSize)))
+    {
+        <option>@value</option>
+    }
+</select>
+<select @bind="ButtonColor">
+    @foreach (var value in Enum.GetValues(typeof(CSColors)))
+    {
+        <option>@value</option>
+    }
+</select>
+<div>
+    <input type="checkbox" id="disabled" @bind="ButtonIsDisabled"/>
+    <label for="disabled">Disabled</label>
+    <input type="checkbox" id="outline" @bind="ButtonIsOutline"/>
+    <label for="outline">Outline</label>
+</div>
+
+<h2>Live demo</h2>
+<CSButton Color="ButtonColor" Size="ButtonSize" ElementType="ButtonElementType" IsDisabled="ButtonIsDisabled" IsOutline="ButtonIsOutline">Hello World!</CSButton>    
+
+<h2>Code</h2>
+
+@code {
+    CSButtonElementTypes ButtonElementType { get; set; }
+
+    CSSize ButtonSize { get; set; }
+
+    CSColors ButtonColor { get; set; }
+
+    bool ButtonIsDisabled { get; set; }
+
+    bool ButtonIsOutline { get; set; }
+}

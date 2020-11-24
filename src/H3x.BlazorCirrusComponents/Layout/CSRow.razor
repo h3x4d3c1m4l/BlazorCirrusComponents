@@ -1,0 +1,23 @@
+﻿@inherits CirrusComponentBase
+
+<div class="row
+     @(NoSpace ? "no-space" : string.Empty)
+     @(NoWrap ? "row--no-wrap" : string.Empty)
+     ">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Remove spaceing between the child columns.
+    /// </summary>
+    public bool NoSpace { get; set; }
+
+    /// <summary>
+    /// Do not wrap not fitting columns.
+    /// </summary>
+    public bool NoWrap { get; set; }
+}

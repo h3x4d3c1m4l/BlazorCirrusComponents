@@ -1,0 +1,21 @@
+﻿@inherits CirrusComponentBase
+
+<div class="@getCss()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Remove spaceing between the child columns.
+    /// </summary>
+    public CSContentType Type { get; set; }
+
+    string getCss() => CssClass(new {
+	    Content = (Type == CSContentType.Default),
+        ContentNoPadding = (Type == CSContentType.NoPadding),
+        ContentFluid = (Type == CSContentType.Fluid)
+    });
+}

@@ -1,0 +1,172 @@
+﻿@page "/stringmanipulation"
+
+<h1>String Manipulation</h1>
+
+<h2>Input</h2>
+<textarea @bind-value="InputText" @bind-value:event="oninput"></textarea>
+
+<div class="dt-inline-children">
+    <input class="dt-counter" value="@InputText.Length" disabled />
+    <CSButton Color="CSColors.Info" @onclick="CountInputLengthUnicodeAware">
+    @if (_inputCounter == null)
+    {
+        <span>Count (Unicode aware)</span>
+    }
+    else
+    {
+        <span>Counted: @_inputCounter</span>
+    }
+    </CSButton>
+    <CSButton Color="CSColors.Primary" @onclick="Upper">Upper</CSButton>
+    <CSButton Color="CSColors.Primary" @onclick="Lower">Lower</CSButton>
+    <CSButton Color="CSColors.Primary" @onclick="Reverse">Reverse</CSButton>
+    <CSButton Color="CSColors.Primary" @onclick="ToFullwidth">To Fullwidth</CSButton>
+    <CSButton Color="CSColors.Primary" @onclick="ToHalfwidth">To Halfwidth</CSButton>
+</div>
+
+<h2>Output</h2>
+<textarea @bind-value="OutputText" @bind-value:event="oninput"></textarea>
+<div class="dt-inline-children">
+    <input class="dt-counter" value="@OutputText.Length" disabled />
+    <CSButton Color="CSColors.Info" @onclick="CountOutputLengthUnicodeAware">
+    @if (_outputCounter == null)
+    {
+        <span>Count (Unicode aware)</span>
+    }
+    else
+    {
+        <span>Counted: @_outputCounter</span>
+    }
+    </CSButton>
+    <CSButton Color="CSColors.Warning" @onclick="CopyOutputToClipboard">Copy to clipboard</CSButton>
+    <CSButton Color="CSColors.Warning" @onclick="CopyOutputToInput">Copy to input</CSButton>
+</div>
+
+@code {
+    string _inputText = string.Empty, _outputText = string.Empty;
+
+    long? _inputCounter, _outputCounter;
+
+    string InputText
+    {
+        get => _inputText;
+        set
+        {
+            _inputText = value;
+            _inputCounter = null;
+        }
+    }
+
+    string OutputText
+    {
+        get => _outputText;
+        set
+        {
+            _outputText = value;
+            _outputCounter = null;
+        }
+    }
+
+    #region Input Manipulation
+
+    void CountInputLengthUnicodeAware()
+    {
+        _inputCounter = 0;
+        var enumerator = StringInfo.GetTextElementEnumerator(InputText);
+        while (enumerator.MoveNext())
+            _inputCounter++;
+    }
+
+    void CountOutputLengthUnicodeAware()
+    {
+        _outputCounter = 0;
+        var enumerator = StringInfo.GetTextElementEnumerator(OutputText);
+        while (enumerator.MoveNext())
+            _outputCounter++;
+    }
+
+    void Upper() => OutputText = InputText.ToUpperInvariant();
+
+    void Lower() => OutputText = InputText.ToLowerInvariant();
+
+    void Reverse()
+    {
+        // https://stackoverflow.com/questions/15029238/reverse-a-string-with-accent-chars
+        var enumerator = StringInfo.GetTextElementEnumerator(InputText);
+        var elements = new List<string>();
+        while (enumerator.MoveNext())
+            elements.Add(enumerator.GetTextElement());
+
+        elements.Reverse();
+        OutputText = string.Concat(elements);
+    }
+
+    void ToFullwidth()
+    {
+        var enumerator = StringInfo.GetTextElementEnumerator(InputText);
+        var elements = new List<string>();
+        while (enumerator.MoveNext())
+        {
+            var textElement = enumerator.GetTextElement();
+            if (textElement.Length > 1)
+            {
+                // unsupported
+                elements.Add(textElement);
+            }
+            else if (textElement[0] >= 0x21 && textElement[0] <= 0x7e)
+            {
+                // ASCII, this is supported
+                var newChar = (char)(textElement[0] - 0x21 + 0xff01);
+                elements.Add(newChar.ToString());
+            }
+            // TODO: katakana, hangul
+            else
+            {
+                // unsupported
+                elements.Add(textElement);
+            }
+        }
+
+        OutputText = string.Concat(elements);
+    }
+
+    void ToHalfwidth()
+    {
+        var enumerator = StringInfo.GetTextElementEnumerator(InputText);
+        var elements = new List<string>();
+        while (enumerator.MoveNext())
+        {
+            var textElement = enumerator.GetTextElement();
+            if (textElement.Length > 1)
+            {
+                // unsupported
+                elements.Add(textElement);
+            }
+            else if (textElement[0] >= 0xff01 && textElement[0] <= 0xff5e)
+            {
+                // ASCII, this is supported
+                var newChar = (char)(textElement[0] - 0xff01 + 0x21);
+                elements.Add(newChar.ToString());
+            }
+            // TODO: katakana, hangul
+            else
+            {
+                // unsupported
+                elements.Add(textElement);
+            }
+        }
+
+        OutputText = string.Concat(elements);
+    }
+
+    #endregion
+
+    @*void ToFullWidth() => OutputText = InputText.Normalize(System.Text.NormalizationForm.)*@
+
+    void CopyOutputToClipboard()
+    {
+
+    }
+
+    void CopyOutputToInput() => InputText = OutputText;
+}

@@ -1,0 +1,45 @@
+﻿@inherits CirrusComponentBase
+
+@if (!NoInputControlWrapper)
+{
+    @((MarkupString)"<div class=\"input-control\">");
+}
+
+<input type="text" class="
+        @(Success ? "text-success input-success" : string.Empty)
+        @(Icon != null ? "input-contains-icon" : string.Empty)
+        @(IconRight != null ? "input-contains-icon-right" : string.Empty)
+        " placeholder="@Placeholder" @attributes="InputAttributes">
+@if (Icon != null)
+{
+    <span class="icon">@Icon</span>
+}
+@if (IconRight != null)
+{
+    <span class="icon icon-right">@IconRight</span>
+}
+
+@if (!NoInputControlWrapper)
+{
+    @((MarkupString)"</div>");
+}
+
+@code {
+    [Parameter]
+    public bool Success { get; set; }
+
+    [Parameter]
+    public string Placeholder { get; set; }
+
+    [Parameter]
+    public bool NoInputControlWrapper { get; set; }
+
+    [Parameter]
+    public RenderFragment Icon { get; set; }
+
+    [Parameter]
+    public RenderFragment IconRight { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; }
+}

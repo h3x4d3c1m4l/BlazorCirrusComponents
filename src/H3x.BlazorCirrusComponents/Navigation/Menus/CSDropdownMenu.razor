@@ -1,0 +1,31 @@
+﻿@inherits CirrusComponentBase
+
+<div class="nav-item has-sub toggle-hover">
+    <a class="nav-dropdown-link">
+        @if (TitleString != null)
+        {
+            @TitleString
+        }
+        else
+        {
+            @Title
+        }
+    </a>
+    <ul class="@CssClass(new { DropdownMenu = true, DropdownAnimated = IsAnimated})" role="menu">
+        @ChildContent
+    </ul>
+</div>
+
+@code {
+    [Parameter]
+    public bool IsAnimated { get; set; } = true;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment Title { get; set; }
+
+    [Parameter]
+    public string TitleString { get; set; }
+}

@@ -1,0 +1,40 @@
+﻿@inherits CirrusComponentBase
+
+@* TODO: offsets, 10-grid layout *@
+
+<div class="@GetWidthCss() @CssClass(new {
+        IgnoreScreen = IgnoresScreen
+    })">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public int Width { get; set; } 
+
+    [Parameter]
+    public bool IgnoresScreen { get; set; }
+
+    [Parameter]
+    public CSBreakpoints Breakpoint { get; set; }
+
+    string GetWidthCss()
+    {
+        var css = "col-";
+        css += Breakpoint switch
+        {
+            CSBreakpoints.Default => string.Empty,
+            CSBreakpoints.Xs => "xs-",
+            CSBreakpoints.Sm => "sm-",
+            CSBreakpoints.Md => "md-",
+            CSBreakpoints.Lg => "lg-",
+            _ => throw new InvalidOperationException("This breakpoint is not supported for CSColumn")
+        };
+        css += Width;
+
+        return css;
+    }
+} 

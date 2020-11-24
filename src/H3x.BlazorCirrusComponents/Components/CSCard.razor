@@ -1,0 +1,80 @@
+﻿@inherits CirrusComponentBase
+
+<div class="card">
+    <div class="card-container">
+        @if (HasTitle)
+        {
+            <div class="card-image" style="background-color: rebeccapurple; background-image: radial-gradient(circle at right top, rgb(0, 255, 255), rgba(0, 255, 255, 0)), radial-gradient(circle at left bottom, rgb(255, 20, 146), rgba(255, 20, 146, 0));"></div>
+            <div class="title-container">
+                <div class="title">
+                @if (TitleString != null)
+                {
+                    @TitleString
+                }
+                else
+                {
+                    @Title
+                }
+                </div>
+                @if (HasSubtitle)
+                {
+                    <div class="subtitle">
+                    @if (SubtitleString != null)
+                    {
+                        @SubtitleString
+                    }
+                    else
+                    {
+                        @Subtitle
+                    }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    @if (ChildContent != null)
+    {
+        <div class="content">
+            @ChildContent
+        </div>
+    }
+    @if (ActionBar != null)
+    {
+        <div class="action-bar@* u-center*@">
+            @ActionBar
+        </div>
+    }
+    @if (Footer != null)
+    {
+        <div class="card-footer">
+            @Footer
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Title { get; set; }
+
+    [Parameter]
+    public string TitleString { get; set; }
+
+    [Parameter]
+    public RenderFragment Subtitle { get; set; }
+
+    [Parameter]
+    public string SubtitleString { get; set; }
+
+    bool HasTitle => Title != null || TitleString != null;
+
+    bool HasSubtitle => Subtitle != null || SubtitleString != null;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment ActionBar { get; set; }
+
+    [Parameter]
+    public RenderFragment Footer { get; set; }
+}

@@ -1,0 +1,18 @@
+﻿@inherits CirrusComponentBase
+
+<div class="tab-container @(HasDepth ? "tabs-depth" : string.Empty)">
+    @ChildContent
+</div>
+
+
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public CSSize Size { get; set; }
+
+    [Parameter]
+    public bool HasDepth { get; set; }
+}

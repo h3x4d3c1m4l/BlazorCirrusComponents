@@ -1,0 +1,23 @@
+@inherits LayoutComponentBase
+
+<nav>
+  <CSHeader IsFixed="true" IsAnimated="true">
+    <Brand>
+        <h6>Dev Tools</h6>
+    </Brand>
+    <Left>
+        <CSDropdownMenu>
+            <Title>Layout</Title>
+            <ChildContent>
+                <CSMenuItem href="/stringmanipulation">String manipulation</CSMenuItem>
+            </ChildContent>
+        </CSDropdownMenu>
+    </Left>
+</CSHeader>  
+</nav>
+
+<main>
+    <CSContent>
+        @Body
+    </CSContent>
+</main>

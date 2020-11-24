@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "@fortawesome/fontawesome-free@5.15.1",
+      "destination": "wwwroot/lib/fortawesome/fontawesome-free/"
+    },
+    {
+      "library": "cirrus-ui@0.6.0",
+      "destination": "wwwroot/lib/cirrus-ui/",
+      "files": [
+        "dist/cirrus.min.css"
+      ]
+    }
+  ]
+}
